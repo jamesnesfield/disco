@@ -1,0 +1,20 @@
+  https://github.com/andium/hueDino
+
+--------
+
+
+Browse for services on Windows/Mac
+
+Browse for all instances of the _hue service:
+dns-sd -B _hue._tcp local.
+
+Look up the information about the Bridge named Philips Hue – 26B8F8:
+dns-sd -L "Philips Hue - 26B8F8" _hue._tcp local.
+
+Get the IP address for the given host name My-Hue-Bridge:
+dns-sd -G v4 My-Hue-Bridge.local
+
+
+-----
+
+https://<bridge_ip>/debug/clip.html

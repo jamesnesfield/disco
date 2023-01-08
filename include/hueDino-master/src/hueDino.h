@@ -39,7 +39,7 @@
 #include "Client.h"
 #include "./include/RestClient.h" 
 #include "ArduinoJson.h"
-//#include "WiFi101.h"
+
 
 #define LIGHT_ON "{\"on\":true}"
 #define LIGHT_OFF "{\"on\":false}"

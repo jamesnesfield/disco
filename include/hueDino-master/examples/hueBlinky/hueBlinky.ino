@@ -25,18 +25,22 @@
  *******************************************************************/
  
 #include "hueDino.h"
+#include "secrets.h"
 
-#define hueUser ""      //ex: "Ur80SKqRKO0ojlFInzdjAZEHy0kjYWznakufY60m"
 
-char ssid[] = "";       // your network SSID (name)
-char pass[] = "";       // your network password
-char hueBridge[] = "";  // hue bridge ip address ex: "192.168.1.3"
+#define hueUser "UyArNXdGBPLQNBHVxieOcpTBCWmo-hf37TCHk7qs"      //ex: "Ur80SKqRKO0ojlFInzdjAZEHy0kjYWznakufY60m"
+
+char ssid[] = "Whitbread";       // your network SSID (name)
+char pass[] = "Brockley2022!";       // your network password
+char hueBridge[] = "10.0.4.39";  // hue bridge ip address ex: "192.168.1.3"
 
 WiFiClient wifi;
 hueDino hue = hueDino(wifi, hueBridge);
 
 void setup() {
   Serial.begin(115200);
+
+  delay(3000);
 
   connectToWiFi();
 
@@ -47,9 +51,10 @@ void setup() {
 void loop() {
 
   //Blinky!
-  hue.turnAllLightsOn();  //turns all hue lights on
+  Serial.print("looping");
+  hue.lightOn(13);  //turns all hue lights on
   delay(3000);
-  hue.turnAllLightsOff(); //turns all hue lights off
+  hue.lightOff(13); //turns all hue lights off
   delay(3000);
 
 }
