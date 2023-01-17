@@ -18,3 +18,9 @@ dns-sd -G v4 My-Hue-Bridge.local
 -----
 
 https://<bridge_ip>/debug/clip.html
+
+
+------
+
+
+GET /api/<hue_username>

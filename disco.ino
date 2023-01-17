@@ -2,13 +2,14 @@
 #include <EthernetUdp.h>
 #include <WiFiNINA.h>  // JV : Wireless Mkr1010
 #include <WiFiUdp.h>   // JV : UDP service
+#include "Ticker.h"
 #include "./include/hueDino-master/src/hueDino.h"
 #include "./include/microxpath-master/src/MicroXPath.h"
 #include "./include/microxpath-master/src/MicroXPath_P.h"
 #include "./include/Sonos-ESP32-master/src/SonosUPnP.h"
 
 
- /******************************************************************* 
+/******************************************************************* 
   The typical 'hello world' of embedded development, blinky! In this 
   example sketch the hueDino library queries the Hue Bridge for all 
   established groups. If groups are found it then toggles all groups 
@@ -33,53 +34,53 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  *******************************************************************/
- 
+
 #include "hueDino.h"
+#include "hue.h"
+#include "wifi.h"
 #include "secrets.h"
 
 WiFiClient wifi;
 hueDino hue = hueDino(wifi, SECRET_HUE_BRIDGE_IP);
+Ticker hueTimer(hueTicker, HUE_PERIOD); // changing led every 500ms
+
+
+unsigned long time_now = 0;
+unsigned long hue_index = 0;
+
+const int HueColours[] = {0, 25500, 46920};
 
 void setup() {
-  Serial.begin(115200);
-
+  Serial.begin(9600);
   delay(3000);
+  //while (!Serial) {;}
+
 
   connectToWiFi();
+  delay(3000);
 
   //Start Hue
   hue.begin(SECRET_HUE_USERNAME);
+  setupHue(hue);
+  printHueLightInfo(hue);
+
+  
+  hueTimer.start(); //start the ticker.
 }
 
 void loop() {
 
-  //Blinky!
-  hue.lightOn(13);  //turns all hue lights on
-  delay(3000);
-  hue.lightOff(13); //turns all hue lights off
-  delay(3000);
+  hueTimer.update(); 
 
 }
 
-void connectToWiFi()
-{
-  int status = WL_IDLE_STATUS;
-   
-  while(status != WL_CONNECTED) {
-    Serial.print("Attempting to connect to Network named: ");
-    Serial.println(SECRET_SSID);                   // print the network name (SSID);
-    // Connect to WPA/WPA2 network:
-    status = WiFi.begin(SECRET_SSID, SECRET_PASS);
-  }
 
-  // print the SSID of the network you're attached to:
-  Serial.print("SSID: ");
-  Serial.println(WiFi.SSID());
+void hueTicker(){
 
-  // print your WiFi shield's IP address:
-  IPAddress ip = WiFi.localIP();
-  Serial.print("IP Address: ");
-  Serial.println(ip);
-  
+    if(hue_index % 2 == 0){
+      hue.hue(HUE_LIGHT_LIVING_ROOM_L, HueColours[hue_index % (N_HUE_COLOURS-1)]);
+    } else {
+      hue.hue(HUE_LIGHT_LIVING_ROOM_R, HueColours[(hue_index + 1) % (N_HUE_COLOURS-1)]);      
+    }
+    ++hue_index;
 }
-
