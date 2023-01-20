@@ -1,3 +1,7 @@
+#ifndef DISCO_WIFI
+#define DISCO_WIFI
+
+WiFiClient wifi;
 
 void connectToWiFi() {
   int status = WL_IDLE_STATUS;
@@ -18,3 +22,5 @@ void connectToWiFi() {
   Serial.print("This Arduino's IP Address: ");
   Serial.println(ip);
 }
+
+#endif
