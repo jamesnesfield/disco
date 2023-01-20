@@ -31,24 +31,6 @@ unsigned long hue_index = 0;
 const int HueColours[] = {0, 25500, 46920};
 bool lastInfernoState = false;
 
-void printHueLightInfo(hueDino hue){
-
-  Serial.println(); //most hueDino methods return strings containing the raw json responses
-  Serial.print("hueDino found: ");
-  Serial.print(hue.numLights);
-  Serial.println(" connected lights");
-  Serial.println();
-  Serial.println("Available Light IDs: ");
-  
-  for(int i=0; i<hue.numLights; i++)
-  {
-      Serial.print(hue.lightIds[i]);
-      Serial.print(",");
-  }
-
-}
-
-
 void setupHue() {
 
   delay(100);
@@ -75,8 +57,6 @@ void setupHue() {
   delay(100);
 
   hue.lightOn(HUE_LIGHT_PLUG);
-
-  printHueLightInfo(hue);
 
 }
 
@@ -130,10 +110,10 @@ void backToNormalHue(){
 
 void hueTimerCallback(){
   if(discoInferno && !lastInfernoState) {
-    Serial.println("Putton on party lights.");
+    Serial.println("Hue: Put on the party lights.");
     lastInfernoState = true;
   } else if (!discoInferno && lastInfernoState) {
-    Serial.println("Putting lights back to normal.");
+    Serial.println("Hue: Putting lights back to normal.");
     #ifdef ENABLE_HUE
       backToNormalHue();
     #endif

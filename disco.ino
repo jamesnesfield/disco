@@ -42,8 +42,7 @@ void setup() {
 void loop() {
 
   // buttons
-  digitalWrite(LED_BUILTIN, digitalRead(8));
-  button.read();
+  buttonUpdate();
   
   // sonos
   sonosUpdate();

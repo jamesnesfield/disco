@@ -8,7 +8,17 @@ SonosUPnP sonos = SonosUPnP(wifi);
 
 void sonosSkipTrack() {
   
-    Serial.println("Skipping track");
+    Serial.println("Sonos: Skipping track");
+
+    #ifdef ENABLE_SONOS
+      sonos.skip(g_sonosLivingrIP, SONOS_DIRECTION_FORWARD);
+    #endif
+
+}
+
+void sonosPlayDubSiren() {
+  
+    Serial.println("Sonos: dooo doo dooo dooooooooo");
 
     #ifdef ENABLE_SONOS
       sonos.skip(g_sonosLivingrIP, SONOS_DIRECTION_FORWARD);
@@ -18,10 +28,14 @@ void sonosSkipTrack() {
 
 void sonosUpdate(){
 
-
   if(skipTrack) {
     sonosSkipTrack();
     skipTrack = false;
+  }
+
+  if(dubSiren) {
+    sonosPlayDubSiren();
+    dubSiren = false;
   }
 
 }
