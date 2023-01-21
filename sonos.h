@@ -2,6 +2,8 @@
 #include "wifi.h"
 #include "./SonosUPnP.h"
 
+//#define DEBUG_MODE_SONOS
+
 
 SonosUPnP sonos = SonosUPnP(wifi); 
 

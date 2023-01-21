@@ -7,8 +7,10 @@
 #include "./include/hueDino-master/src/hueDino.h"
 #include "hueDino.h"
 
+//#define DEBUG_MODE_HUE
+
 #define HUE_BRIDGE_IP SECRET_HUE_BRIDGE_IP
-#define HUE_PERIOD 1000
+#define HUE_PERIOD 500
 #define HUE_LIGHT_BEDROOM 14
 #define HUE_LIGHT_LIVING_ROOM_L 7
 #define HUE_LIGHT_LIVING_ROOM_R 8
@@ -20,68 +22,85 @@
 #define HUE_LIGHT_ARCO_NORMAL_SAT 121
 #define HUE_LIGHT_ARCO_NORMAL_BRI 194
 #define HUE_LIGHT_PLUG 17
-#define N_HUE_LIGHTS 4
-#define N_HUE_COLOURS 4
+#define N_HUE_LIGHTS 3
+#define N_HUE_COLOURS N_HUE_LIGHTS
 
 void hueTimerCallback();
 
 hueDino hue = hueDino(wifi, SECRET_HUE_BRIDGE_IP);
 Ticker hueTimer(hueTimerCallback, HUE_PERIOD); // changing led every 500ms
 unsigned long hue_index = 0;
-const int HueColours[] = {0, 25500, 46920};
+const int hueColours[] = {0, 25500, 46920};
 bool lastInfernoState = false;
 
 void setupHue() {
+  hueTimer.stop();
+}
 
-  delay(100);
+void hueStartTheParty(){
 
-  //hue.getLightIds();
+  lastInfernoState = true;
 
-  delay(100);
+#ifndef DEBUG_MODE_HUE
+
+  hue.lightOn(HUE_LIGHT_PLUG);
+
+  delay(10);
 
   hue.brightness(HUE_LIGHT_LIVING_ROOM_L, 254);
   hue.sat(HUE_LIGHT_LIVING_ROOM_L, 254);
-  hue.hue(HUE_LIGHT_LIVING_ROOM_L, HueColours[random(0,2) % (N_HUE_COLOURS-1)]);
+  hue.hue(HUE_LIGHT_LIVING_ROOM_L, hueColours[random(0 ,N_HUE_LIGHTS)]);
 
-  delay(100);
+  delay(10);
 
   hue.brightness(HUE_LIGHT_LIVING_ROOM_R, 254);
   hue.sat(HUE_LIGHT_LIVING_ROOM_R, 254);
-  hue.hue(HUE_LIGHT_LIVING_ROOM_R, HueColours[random(0,2) % (N_HUE_COLOURS-1)]);
+  hue.hue(HUE_LIGHT_LIVING_ROOM_R, hueColours[random(0, N_HUE_LIGHTS)]);
 
-  delay(100);
+  delay(10);
 
   hue.brightness(HUE_LIGHT_ARCO, 254);
-  hue.colorLoop(HUE_LIGHT_ARCO, 1);
+  hue.sat(HUE_LIGHT_ARCO, 254);
+  hue.hue(HUE_LIGHT_ARCO, hueColours[random(0, N_HUE_LIGHTS)]);
 
-  delay(100);
+  delay(10);
 
-  hue.lightOn(HUE_LIGHT_PLUG);
+#endif
+
+  hueTimer.start();
 
 }
 
 void randomiseHue(hueDino hue){
   
-    ++hue_index;
+  Serial.println("Hue: changing colour of lights.");
 
-    //living room lights
-    if(hue_index % 2 == 0){
-      hue.hue(HUE_LIGHT_LIVING_ROOM_L, HueColours[random(0,2) % (N_HUE_COLOURS-1)]);
+#ifndef DEBUG_MODE_HUE
 
-    } else {
-      hue.hue(HUE_LIGHT_LIVING_ROOM_R, HueColours[random(0,2) % (N_HUE_COLOURS-1)]);
-    }
+  ++hue_index;
 
-    //arco
-    if(random(0,9) == 0){
-      hue.flash(HUE_LIGHT_ARCO);
-    } else {
-      hue.colorLoop(HUE_LIGHT_ARCO, true);
-    }
+  switch(hue_index % N_HUE_LIGHTS - 1) {
+    case 0:
+        hue.hue(HUE_LIGHT_LIVING_ROOM_L, hueColours[random(0, N_HUE_LIGHTS)]);
+        break;
+    case 1:
+        hue.hue(HUE_LIGHT_LIVING_ROOM_R, hueColours[random(0, N_HUE_LIGHTS)]);
+        break;
+    default:
+        hue.hue(HUE_LIGHT_ARCO, hueColours[random(0, N_HUE_LIGHTS)]);
+  }
+    
+#endif
 
 }
 
-void backToNormalHue(){
+
+void hueStopTheParty(){
+
+  hueTimer.stop();
+  lastInfernoState = false;
+
+#ifndef DEBUG_MODE_HUE
 
   delay(100);
 
@@ -106,23 +125,19 @@ void backToNormalHue(){
 
   hue.lightOn(HUE_LIGHT_PLUG);
 
+#endif
+
 }
 
+
 void hueTimerCallback(){
+
   if(discoInferno && !lastInfernoState) {
-    Serial.println("Hue: Put on the party lights.");
-    lastInfernoState = true;
+    hueStartTheParty();
   } else if (!discoInferno && lastInfernoState) {
-    Serial.println("Hue: Putting lights back to normal.");
-    #ifdef ENABLE_HUE
-      backToNormalHue();
-    #endif
-    lastInfernoState = false;
+    hueStopTheParty();
   } else if(discoInferno) {
-    //Serial.println("Changing party lights");
-    #ifdef ENABLE_HUE
-      randomiseHue(hue);
-    #endif
+    randomiseHue(hue);
   }
 }
 

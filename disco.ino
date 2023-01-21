@@ -11,8 +11,6 @@ static bool dubSiren = false;
 #include "button.h"
 
 
-//#define ENABLE_HUE 1
-//#define ENABLE_SONOS 1
 
 void setup() {
 
