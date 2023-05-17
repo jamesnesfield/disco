@@ -1,7 +1,6 @@
 #ifndef DISCO_WIFI
 #define DISCO_WIFI
 
-WiFiClient wifi;
 
 void connectToWiFi() {
   int status = WL_IDLE_STATUS;

@@ -17,10 +17,19 @@ dns-sd -G v4 My-Hue-Bridge.local
 
 -----
 
+Get light IDs
+
 https://<bridge_ip>/debug/clip.html
+
+Then, 
+
+GET https://<bridge ip address>/api/1028d66426293e821ecfd9ef1a0731df/lights
 
 
 ------
 
 
-GET /api/<hue_username>
+Get Sonos IP - in-app
+
+Get Sonos playlist ID
+

@@ -33,10 +33,10 @@
 //#endif
 
 #ifndef SONOS_WRITE_ONLY_MODE
-#include <MicroXPath_P.h>
+#include "../../microxpath-master/src/MicroXPath_P.h"
 #endif
-#include <WiFiNINA.h>  // JV : Wireless Mkr1010
-#include <WiFiUdp.h>   // JV : UDP service
+#include "../../WiFiNINA-1.8.13/src/WiFiNINA.h"  // JV : Wireless Mkr1010
+#include "../../WiFiNINA-1.8.13/src/WiFiUdp.h"   // JV : UDP service
 
 // HTTP:
 #define HTTP_VERSION " HTTP/1.1\n"

@@ -38,6 +38,7 @@
 #include <Arduino.h>
 #include "Client.h"
 #include "./include/RestClient.h" 
+#include "../../WiFiNINA-1.8.13/src/WiFiClient.h" 
 #include "ArduinoJson.h"
 
 

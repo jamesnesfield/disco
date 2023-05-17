@@ -1,14 +1,19 @@
 #include "libs.h"
 
 static bool discoInferno = false;
+static bool lastInfernoState = false;
 static bool skipTrack = false;
 static bool dubSiren = false;
 
 #include "secrets.h"
-#include "wifi.h"
-#include "hue.h"
+
+WiFiClient wifi;
+
 #include "sonos.h"
+#include "wifi.h"
 #include "button.h"
+#include "hue.h"
+
 
 
 
@@ -35,9 +40,30 @@ void setup() {
 
 // timers and callbacks
   hueTimer.start();
+  
+  //sonosStartTheParty();
+
+  sonosPlayDubSiren();
+
 }
 
 void loop() {
+
+
+  if(discoInferno && !lastInfernoState){
+      Serial.println("=========== START THE PARTY! =============");
+      hueStartTheParty();
+      sonosStartTheParty();
+      lastInfernoState = true;
+
+
+  }else if(!discoInferno && lastInfernoState){
+      hueStopTheParty();
+      sonosStopTheParty();
+      Serial.println("=========== STOP THE PARTY :( =============");
+      lastInfernoState = false;
+
+  }
 
   // buttons
   buttonUpdate();

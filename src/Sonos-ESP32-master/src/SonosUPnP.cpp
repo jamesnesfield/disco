@@ -253,6 +253,7 @@ void SonosUPnP::playQueue(IPAddress speakerIP, const char *speakerID)
   char address[30];
   sprintf_P(address, p_SourceRinconTemplate, speakerID, UPNP_PORT, "#0");
   setAVTransportURI(speakerIP, SONOS_SOURCE_QUEUE_SCHEME, address);
+  seekTrack(speakerIP, 0);
   play(speakerIP);
 }
 

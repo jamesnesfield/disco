@@ -31,7 +31,6 @@ void buttonPressed() {
   Serial.println("Button: pressed");
 
   if(buttonTimer.state() == RUNNING) { // second press detected within DOUBLE_PRESS_DELAY
-    Serial.print("time elapsed :");
     Serial.println(buttonTimer.elapsed()/1000);
     buttonDoublePressed();
     buttonTimer.stop();
@@ -43,7 +42,6 @@ void buttonPressed() {
 
 
 void buttonTimerCallback(){
-    Serial.println("Button: timer end reached");
     if(discoInferno){ 
       Serial.println("Button: - neeeexxxxt!!!");
       skipTrack =true; 
@@ -62,7 +60,8 @@ void buttonUpdate(){
 void buttonLongPressed()
 {
   Serial.println("Button: long-pressed");
-  if(discoInferno) {
+  if(true) {
+  //if(discoInferno) {
     Serial.println("Button:........... back to reality :)");
     discoInferno = false;
   }
@@ -73,7 +72,6 @@ void buttonDoublePressed()
 {
   // allow a dub siren whether there is a party on or not :)
   Serial.println("Button: double-pressed");
-  Serial.println("Button: - duuuuub siiiirrrreeeennnn....");
   dubSiren = true;
 }
 
