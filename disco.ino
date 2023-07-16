@@ -43,7 +43,7 @@ void setup() {
   
   //sonosStartTheParty();
 
-  sonosPlayDubSiren();
+  //sonosPlayDubSiren();
 
 }
 

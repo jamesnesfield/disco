@@ -46,24 +46,28 @@ void hueStartTheParty(){
 
   delay(100);
 
+  hue.lightOn(HUE_LIGHT_LIVING_ROOM_L);
   hue.brightness(HUE_LIGHT_LIVING_ROOM_L, 254);
   hue.sat(HUE_LIGHT_LIVING_ROOM_L, 254);
   hue.hue(HUE_LIGHT_LIVING_ROOM_L, hueColours[random(0 ,N_HUE_COLOURS)]);
 
   delay(100);
 
+  hue.lightOn(HUE_LIGHT_LIVING_ROOM_R);
   hue.brightness(HUE_LIGHT_LIVING_ROOM_R, 254);
   hue.sat(HUE_LIGHT_LIVING_ROOM_R, 254);
   hue.hue(HUE_LIGHT_LIVING_ROOM_R, hueColours[random(0, N_HUE_COLOURS)]);
 
   delay(100);
 
+  hue.lightOn(HUE_LIGHT_ARCO);
   hue.brightness(HUE_LIGHT_ARCO, 254);
   hue.sat(HUE_LIGHT_ARCO, 254);
   hue.hue(HUE_LIGHT_ARCO, hueColours[random(0, N_HUE_COLOURS)]);
 
   delay(100);
 
+  hue.lightOn(HUE_LIGHT_FIREPLACE);
   hue.brightness(HUE_LIGHT_FIREPLACE, 254);
   hue.sat(HUE_LIGHT_FIREPLACE, 254);
   hue.hue(HUE_LIGHT_FIREPLACE, hueColours[random(0, N_HUE_COLOURS)]);

@@ -46,6 +46,7 @@ void buttonTimerCallback(){
       Serial.println("Button: - neeeexxxxt!!!");
       skipTrack =true; 
     } else {
+      //Serial.println("Button timeout reached end");
       discoInferno = true; // start the disco
     }
 }

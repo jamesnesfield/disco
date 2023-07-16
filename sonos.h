@@ -1,15 +1,22 @@
 //#define SONOS_DEBUG 1
 #define ENABLE_SONOS 1
 #define SONOS_URI_AIRHORN "//SynologyRouter/music/airhorn.mp3"
+#define SONOS_URI_PARTY_TIME "//SynologyRouter/music/party-time.mp3"
+#define SONOS_URI_PARTY_TIME_ERIC "//SynologyRouter/music/party-time-eric.mp3"
+#define SONOS_URI_SHAKE_IT "//SynologyRouter/music/shake-it.mp3"
 #define SONOS_URI_DISCO_PLAYLIST_ID 4
-#define SONOS_PARTY_VOLUME 50
+#define SONOS_PARTY_VOLUME 30
 #define SONOS_SFX_VOLUME 50
+#define SONOS_N_SFX 4
 
 IPAddress SONOS_OFFICE_IP(10, 0, 4, 93);
 IPAddress SONOS_BEDROOM_IP(10, 0, 4, 92);
 IPAddress SONOS_LIVINGROOM_IP(10, 0, 4, 79);
 IPAddress SONOS_MOVE_IP(10, 0, 4, 84);
 
+
+
+String sfxArray[4] = {SONOS_URI_AIRHORN,SONOS_URI_PARTY_TIME,SONOS_URI_PARTY_TIME_ERIC,SONOS_URI_SHAKE_IT};
 
 const char sonosLivingrID[] = "48A6B801443301400";
 const char sonosMoveID[] = "5CAAFDD4D0CC01400";
@@ -58,7 +65,8 @@ void sonosStartTheParty(){
   
   Serial.println("Sonos: starting disco tunes...");
 
-  sonosPlayDubSiren();
+  sonos.setVolume(SONOS_MOVE_IP, SONOS_SFX_VOLUME);
+  sonos.playFile(SONOS_MOVE_IP, SONOS_URI_AIRHORN);
 
   #ifdef SONOS_DEBUG
     Serial.println("(in debug)");
@@ -67,19 +75,24 @@ void sonosStartTheParty(){
     sonos.addPlaylistToQueue(SONOS_OFFICE_IP, SONOS_URI_DISCO_PLAYLIST_ID);
     sonos.playQueue(SONOS_OFFICE_IP, sonosOfficeID);
     sonos.setPlayMode(SONOS_OFFICE_IP, 3);
+    sonos.play(SONOS_OFFICE_IP);
   #else
-    sonos.stop(SONOS_LIVINGROOM_IP);
 
+    //sonos.stop(SONOS_LIVINGROOM_IP);
     sonos.removeAllTracksFromQueue(SONOS_LIVINGROOM_IP);
-    Serial.println("..cleared queue");
+    //sonos.disconnectFromMaster(SONOS_LIVINGROOM_IP);
+    //delay(100);
+
+    Serial.println("Sonos...cleared queue");
     sonos.addPlaylistToQueue(SONOS_LIVINGROOM_IP, SONOS_URI_DISCO_PLAYLIST_ID);
-    Serial.println("..playing queue");
+    Serial.println("Sonos...playing queue");
     sonos.playQueue(SONOS_LIVINGROOM_IP, sonosLivingrID);
-    sonos.setPlayMode(SONOS_LIVINGROOM_IP, 3);
-    sonos.setVolume(SONOS_LIVINGROOM_IP, SONOS_PARTY_VOLUME);
-    // sonos.disconnectFromMaster(SONOS_MOVE_IP);
-    // sonos.disconnectFromMaster(SONOS_LIVINGROOM_IP);
-    Serial.println("..disconnected masters and set play mode");
+    delay(100);
+
+    delay(1000);
+    sonos.play(SONOS_LIVINGROOM_IP);
+
+    //sonos.setPlayMode(SONOS_LIVINGROOM_IP, 3);
 
   #endif
 

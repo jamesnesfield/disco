@@ -185,7 +185,7 @@ void SonosUPnP::setAVTransportURI(IPAddress speakerIP, const char *scheme, const
 void SonosUPnP::seekTrack(IPAddress speakerIP, uint16_t index)
 {
   char indexChar[6];
-  itoa(index, indexChar, 10);
+  itoa(index + 1, indexChar, 10);
   seek(speakerIP, SONOS_SEEK_MODE_TRACK_NR, indexChar);
 }
 
@@ -248,12 +248,21 @@ void SonosUPnP::playLineIn(IPAddress speakerIP, const char *speakerID)
   play(speakerIP);
 }
 
-void SonosUPnP::playQueue(IPAddress speakerIP, const char *speakerID)
+
+void SonosUPnP::cueQueue(IPAddress speakerIP, const char *speakerID)
 {
   char address[30];
   sprintf_P(address, p_SourceRinconTemplate, speakerID, UPNP_PORT, "#0");
   setAVTransportURI(speakerIP, SONOS_SOURCE_QUEUE_SCHEME, address);
   seekTrack(speakerIP, 0);
+}
+
+void SonosUPnP::playQueue(IPAddress speakerIP, const char *speakerID)
+{
+  char address[30];
+  sprintf_P(address, p_SourceRinconTemplate, speakerID, UPNP_PORT, "#0");
+  setAVTransportURI(speakerIP, SONOS_SOURCE_QUEUE_SCHEME, address);
+  seekTrack(speakerIP, 1);
   play(speakerIP);
 }
 
@@ -281,8 +290,7 @@ void SonosUPnP::pause(IPAddress speakerIP)
 
 void SonosUPnP::skip(IPAddress speakerIP, uint8_t direction)
 {
-  upnpSet(
-    speakerIP, UPNP_AV_TRANSPORT, direction == SONOS_DIRECTION_FORWARD ? p_Next : p_Previous);
+  upnpSet(speakerIP, UPNP_AV_TRANSPORT, direction == SONOS_DIRECTION_FORWARD ? p_Next : p_Previous);
 }
 
 void SonosUPnP::setMute(IPAddress speakerIP, bool state)

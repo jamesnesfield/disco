@@ -377,6 +377,7 @@ class SonosUPnP
     void playHttp(IPAddress speakerIP, const char *address);
     void playRadio(IPAddress speakerIP, const char *address, const char *title);
     void playLineIn(IPAddress speakerIP, const char *speakerID);
+    void cueQueue(IPAddress speakerIP, const char *speakerID);
     void playQueue(IPAddress speakerIP, const char *speakerID);
     void playConnectToMaster(IPAddress speakerIP, const char *masterSpeakerID);
     void disconnectFromMaster(IPAddress speakerIP);

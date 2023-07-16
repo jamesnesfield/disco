@@ -49,7 +49,7 @@
 #define MAX_LIGHTS_PER_BRIDGE 50
 #define MAX_GROUPS_PER_BRIDGE 64
 
-#define DEBUG
+//#define DEBUG
 /*#define DEBUG_IDs*/
 
 class hueDino {
