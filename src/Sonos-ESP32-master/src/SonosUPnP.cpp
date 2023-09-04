@@ -177,6 +177,7 @@ SonosUPnP::SonosUPnP(WiFiClient client) // wireless adapted JV
 }
 
 
+
 void SonosUPnP::setAVTransportURI(IPAddress speakerIP, const char *scheme, const char *address)
 {
   setAVTransportURI(speakerIP, scheme, address, p_UriMetaLightStart, p_UriMetaLightEnd, "");
@@ -251,20 +252,15 @@ void SonosUPnP::playLineIn(IPAddress speakerIP, const char *speakerID)
 
 void SonosUPnP::cueQueue(IPAddress speakerIP, const char *speakerID)
 {
-  char address[30];
-  sprintf_P(address, p_SourceRinconTemplate, speakerID, UPNP_PORT, "#0");
-  setAVTransportURI(speakerIP, SONOS_SOURCE_QUEUE_SCHEME, address);
-  seekTrack(speakerIP, 0);
+  char uri[42];
+  sprintf(uri, "%s%s#0", SONOS_SOURCE_QUEUE_SCHEME, speakerID);
+  setAVTransportURI(speakerIP,"", uri,"<CurrentURIMetaData>","</CurrentURIMetaData>","");
+  seekTrack(speakerIP, 1);
 }
 
 void SonosUPnP::playQueue(IPAddress speakerIP, const char *speakerID)
 {
-  char address[42];
-  sprintf(address, "%s%s#0", SONOS_SOURCE_QUEUE_SCHEME, speakerID);
-  upnpSet(
-    speakerIP, UPNP_AV_TRANSPORT, p_SetAVTransportURI,
-    "CurrentURIMetaData", "", "", "<CurrentURI>", "</CurrentURI>", address);
-  seekTrack(speakerIP, 1);
+  cueQueue(speakerIP, speakerID);
   play(speakerIP);
 }
 

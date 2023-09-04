@@ -14,9 +14,6 @@ WiFiClient wifi;
 #include "button.h"
 #include "hue.h"
 
-
-
-
 void setup() {
 
 // start serial
@@ -32,18 +29,15 @@ void setup() {
   hue.begin(SECRET_HUE_USERNAME);
   setupHue();
 
-
 // setup button
   button.begin();
   setupButton();
 
-
 // timers and callbacks
   hueTimer.start();
-  
-  //sonosStartTheParty();
 
-  //sonosPlayDubSiren();
+
+    Serial.println("Setup finished, starting loop...");
 
 }
 
